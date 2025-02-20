@@ -9,7 +9,7 @@ export default function Header() {
   const { setIsMobileNavOpen } = useNavigation();
 
   return (
-    <header className="  bg-gray-800 backdrop-blur-xl sticky top-0 z-50">
+    <header className="fixed top-0 left-0 w-full bg-gray-800 backdrop-blur-xl z-50">
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <Button

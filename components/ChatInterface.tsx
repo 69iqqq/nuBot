@@ -134,6 +134,30 @@ export default function ChatInterface({
 
   return (
     <main className="flex flex-col h-[calc(100vh-theme(spacing.14))] bg-gray-900 text-white">
+      {/* Input section at the top */}
+      <header className="sticky top-0 bg-gray-800 border-b border-gray-700 p-4 z-10">
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Message nuBot"
+              className="flex-1 py-3 px-4 rounded-2xl border border-gray-600 bg-gray-700 text-white placeholder-gray-400 pr-12 focus:outline-none focus:border-transparent focus:ring-0"
+              disabled={isLoading}
+            />
+            <Button
+              type="submit"
+              disabled={isLoading || !input.trim()}
+              className="absolute right-1.5 rounded-xl h-9 w-9 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <ArrowUpFromDot />
+            </Button>
+          </div>
+        </form>
+      </header>
+
+      {/* Messages section that scrolls independently */}
       <section className="flex-1 overflow-y-auto bg-gray-800 p-2 md:p-0">
         <div className="max-w-4xl mx-auto p-4 space-y-3">
           {messages?.length === 0 && <Greeting />}
@@ -175,28 +199,6 @@ export default function ChatInterface({
           <div ref={messagesEndRef} />
         </div>
       </section>
-
-      <footer className="border-gray-700 bg-gray-800 p-4">
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Message nuBot"
-              className="flex-1 py-3 px-4 rounded-2xl border border-gray-600 bg-gray-700 text-white placeholder-gray-400 pr-12"
-              disabled={isLoading}
-            />
-            <Button
-              type="submit"
-              disabled={isLoading || !input.trim()}
-              className="absolute right-1.5 rounded-xl h-9 w-9 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              <ArrowUpFromDot />
-            </Button>
-          </div>
-        </form>
-      </footer>
     </main>
   );
 }
