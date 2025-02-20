@@ -150,7 +150,7 @@ export default function ChatInterface({
         </div>
       </section>
 
-      <footer className="border-t border-gray-700 bg-gray-900 p-4">
+      <footer className=" border-gray-700 bg-gray-800 p-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
           <div className="relative flex items-center">
             <input

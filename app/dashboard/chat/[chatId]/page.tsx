@@ -14,7 +14,6 @@ interface ChatPageProps {
 export default async function ChatPage({ params }: ChatPageProps) {
   const { chatId } = await params;
 
-  // Get user authentication
   const { userId } = await auth();
 
   if (!userId) {
@@ -25,7 +24,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
     // Get Convex client and fetch chat and messages
     const convex = getConvexClient();
 
-    // Check if chat exists & user is authorized to view it
     const chat = await convex.query(api.chats.getChat, {
       id: chatId,
       userId,
@@ -33,7 +31,7 @@ export default async function ChatPage({ params }: ChatPageProps) {
 
     if (!chat) {
       console.log(
-        "⚠️ Chat not found or unauthorized, redirecting to dashboard",
+        "⚠️ Chat not found or unauthorized, redirecting to dashboard"
       );
       redirect("/dashboard");
     }
