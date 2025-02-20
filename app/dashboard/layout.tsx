@@ -12,18 +12,19 @@ export default function DashboardLayout({
 }) {
   return (
     <NavigationProvider>
-      <div className="flex flex-col h-screen ">
-        {/* Header at the top */}
-        <Header />
+      <div className="flex h-screen overflow-hidden">
+        {/* Sidebar taking full height */}
+        <Authenticated>
+          <Sidebar />
+        </Authenticated>
 
-        <div className="flex flex-1 overflow-hidden">
-          <Authenticated>
-            {/* Sidebar below the Header and beside the main content */}
-            <Sidebar />
-          </Authenticated>
+        {/* Main content section */}
+        <div className="flex flex-col flex-1">
+          {/* Header inside main content (not above sidebar) */}
+          <Header />
 
-          {/* Main content */}
-          <main className="flex-1 overflow-y-auto ring-gray-700" >{children}</main>
+          {/* Content area */}
+          <main className="flex-1 overflow-y-auto ring-gray-700">{children}</main>
         </div>
       </div>
     </NavigationProvider>

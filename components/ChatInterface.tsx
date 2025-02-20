@@ -5,7 +5,7 @@ import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Button } from "@/components/ui/button";
 import Greeting from "@/components/Greeting";
 import { Cloud } from "@/components/BotCloud";
-import { ArrowRight, Copy } from "lucide-react";
+import { ArrowUpFromDot, Copy } from "lucide-react";
 import { getConvexClient } from "@/lib/convex";
 import { api } from "@/convex/_generated/api";
 
@@ -34,7 +34,7 @@ export default function ChatInterface({
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const getGeminiResponse = async (userMessage: string) => {
+  const getGeminiResponse = async (userMessage: string, appendMessage: (chunk: string) => void) => {
     try {
       const response = await fetch("/api/gemini", {
         method: "POST",
@@ -42,16 +42,29 @@ export default function ChatInterface({
         body: JSON.stringify({ prompt: userMessage }),
       });
 
-      const data = await response.json();
-      console.log("💬 AI Response:", data);
-
-      if (data.candidates && data.candidates.length > 0) {
-        return data.candidates[0].content.parts[0].text;
-      } else {
-        return "No response from AI.";
+      if (!response.body) {
+        throw new Error("Response body is empty.");
       }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      let accumulatedText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const chunk = decoder.decode(value, { stream: true });
+        accumulatedText += chunk;
+
+        // Append the new chunk to the AI message
+        appendMessage(chunk);
+      }
+
+      return accumulatedText;
     } catch (error) {
-      console.error("Error getting AI response:", error);
+      console.error("Error streaming AI response:", error);
       return "Error communicating with AI.";
     }
   };
@@ -64,6 +77,7 @@ export default function ChatInterface({
     setInput("");
     setIsLoading(true);
 
+    // Create and add user message to state
     const userMessage: Doc<"messages"> = {
       _id: `temp_${Date.now()}`,
       chatId,
@@ -74,18 +88,30 @@ export default function ChatInterface({
 
     setMessages((prev) => [...prev, userMessage]);
 
-    const aiResponse = await getGeminiResponse(trimmedInput);
-
+    // Create an empty AI message placeholder
     const assistantMessage: Doc<"messages"> = {
       _id: `temp_assistant_${Date.now()}`,
       chatId,
-      content: aiResponse,
+      content: "",
       role: "assistant",
       createdAt: Date.now(),
     } as Doc<"messages">;
 
     setMessages((prev) => [...prev, assistantMessage]);
 
+    // Function to update AI message content dynamically
+    const appendMessage = (chunk: string) => {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg._id === assistantMessage._id ? { ...msg, content: msg.content + chunk } : msg
+        )
+      );
+    };
+
+    // Start streaming response
+    const fullResponse = await getGeminiResponse(trimmedInput, appendMessage);
+
+    // Store final response in Convex
     try {
       const convex = getConvexClient();
       await convex.mutation(api.messages.store, {
@@ -96,7 +122,7 @@ export default function ChatInterface({
 
       await convex.mutation(api.messages.store, {
         chatId,
-        content: aiResponse,
+        content: fullResponse,
         role: "assistant",
       });
     } catch (error) {
@@ -150,14 +176,14 @@ export default function ChatInterface({
         </div>
       </section>
 
-      <footer className=" border-gray-700 bg-gray-800 p-4">
+      <footer className="border-gray-700 bg-gray-800 p-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
           <div className="relative flex items-center">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Message AI Agent..."
+              placeholder="Message nuBot"
               className="flex-1 py-3 px-4 rounded-2xl border border-gray-600 bg-gray-700 text-white placeholder-gray-400 pr-12"
               disabled={isLoading}
             />
@@ -166,7 +192,7 @@ export default function ChatInterface({
               disabled={isLoading || !input.trim()}
               className="absolute right-1.5 rounded-xl h-9 w-9 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white"
             >
-              <ArrowRight />
+              <ArrowUpFromDot />
             </Button>
           </div>
         </form>

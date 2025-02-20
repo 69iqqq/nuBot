@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
-import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
+import { Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { useNavigation } from "@/lib/context/navigation";
@@ -29,38 +29,31 @@ function ChatRow({
 
   return (
     <div
-      className="group rounded-xl border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+      className="group rounded-lg border border-transparent bg-gray-800 hover:bg-gray-700 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md pl-2 pr-2 mt-5"
       onClick={handleClick}
     >
-      <div className="p-4">
-        <div className="flex justify-between items-start">
-          <p className="text-sm text-gray-300 truncate flex-1 font-medium">
-            {lastMessage ? (
-              <>
-                {lastMessage.role === "user" ? "You: " : "AI: "}
-                {lastMessage.content.replace(/\\n/g, "\n")}
-              </>
-            ) : (
-              <span className="text-gray-500">New conversation</span>
-            )}
-          </p>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="opacity-0 group-hover:opacity-100 -mr-2 -mt-2 ml-2 transition-opacity duration-200"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(chat._id);
-            }}
-          >
-            <TrashIcon className="h-4 w-4 text-gray-500 hover:text-red-500 transition-colors" />
-          </Button>
-        </div>
-        {lastMessage && (
-          <p className="text-xs text-gray-500 mt-1.5 font-medium">
-            {/* <TimeAgo date={lastMessage.createdAt} /> */}
-          </p>
-        )}
+      <div className="flex justify-between items-center">
+        <p className="text-xs text-gray-300 truncate flex-1 font-medium">
+          {lastMessage ? (
+            <>
+              {lastMessage.role === "user" ? "You: " : "AI: "}
+              {lastMessage.content.replace(/\\n/g, "\n")}
+            </>
+          ) : (
+            <span className="text-gray-500">New conversation</span>
+          )}
+        </p>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-transparent"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(chat._id);
+          }}
+        >
+          <TrashIcon className="h-2.5 w-2.5 bg-transparent text-red-500" />
+        </Button>
       </div>
     </div>
   );
@@ -98,20 +91,21 @@ export default function Sidebar() {
 
       <div
         className={cn(
-          "fixed md:inset-y-0 top-14 bottom-0 left-0 z-50 w-72 bg-gray-900 border-r border-gray-700 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-0 flex flex-col",
+          "fixed md:inset-y-0 top-14 bottom-0 left-0 z-50 w-64 bg-gray-900 border-r border-transparent transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-0 flex flex-col",
           isMobileNavOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="p-4 border-b border-gray-700">
+        <div className="p-3 border-b border-transparent relative">
           <Button
             onClick={handleNewChat}
-            className="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 border border-gray-600 shadow-sm hover:shadow transition-all duration-200"
+            className="absolute top-1.5 right-1.5 text-gray-400 bg-transparent hover:text-white transition-colors duration-200 p-2"
+            size="icon"
           >
-            <PlusIcon className="mr-2 h-4 w-4" /> New Chat
+            <Pencil2Icon className="h-4 w-4 border-transparent" />
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-2.5 p-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+        <div className="flex-1 overflow-y-auto space-y-1.5 p-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
           {chats?.map((chat) => (
             <ChatRow key={chat._id} chat={chat} onDelete={handleDeleteChat} />
           ))}

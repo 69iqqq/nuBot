@@ -20,7 +20,7 @@ export function Cloud({ content, isUser }: CloudProps) {
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
         className={`rounded-2xl px-4 py-2.5 max-w-[85%] md:max-w-[75%] shadow-sm ring-1 ring-inset relative ${isUser
-          ? "bg-blue-600 text-white rounded-br-none ring-blue-700"
+          ? "bg-gray-900 text-white rounded-br-none ring-transparent"
           : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
           }`}
       >
@@ -36,13 +36,13 @@ export function Cloud({ content, isUser }: CloudProps) {
                     style={oneDark}
                     language={match[1]}
                     PreTag="div"
-                    className="rounded-lg overflow-hidden p-3"
+                    className="rounded-lg overflow-hidden p-3 w-full"
                   >
                     {String(children).replace(/\n$/, "")}
                   </SyntaxHighlighter>
                 ) : (
                   <code
-                    className="bg-gray-700 text-white px-1 py-0.5 rounded"
+                    className="bg-gray-700 text-white px-1 py-0.5 w-full rounded"
                     {...props}
                   >
                     {children}
