@@ -5,7 +5,6 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
-// import TimeAgo from "react-timeago";
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { useNavigation } from "@/lib/context/navigation";
@@ -30,19 +29,19 @@ function ChatRow({
 
   return (
     <div
-      className="group rounded-xl border border-gray-200/30 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+      className="group rounded-xl border border-gray-700 bg-gray-800 hover:bg-gray-700 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
       onClick={handleClick}
     >
       <div className="p-4">
         <div className="flex justify-between items-start">
-          <p className="text-sm text-gray-600 truncate flex-1 font-medium">
+          <p className="text-sm text-gray-300 truncate flex-1 font-medium">
             {lastMessage ? (
               <>
                 {lastMessage.role === "user" ? "You: " : "AI: "}
                 {lastMessage.content.replace(/\\n/g, "\n")}
               </>
             ) : (
-              <span className="text-gray-400">New conversation</span>
+              <span className="text-gray-500">New conversation</span>
             )}
           </p>
           <Button
@@ -54,11 +53,11 @@ function ChatRow({
               onDelete(chat._id);
             }}
           >
-            <TrashIcon className="h-4 w-4 text-gray-400 hover:text-red-500 transition-colors" />
+            <TrashIcon className="h-4 w-4 text-gray-500 hover:text-red-500 transition-colors" />
           </Button>
         </div>
         {lastMessage && (
-          <p className="text-xs text-gray-400 mt-1.5 font-medium">
+          <p className="text-xs text-gray-500 mt-1.5 font-medium">
             {/* <TimeAgo date={lastMessage.createdAt} /> */}
           </p>
         )}
@@ -83,7 +82,6 @@ export default function Sidebar() {
 
   const handleDeleteChat = async (id: Id<"chats">) => {
     await deleteChat({ id });
-    // If we're currently viewing this chat, redirect to dashboard
     if (window.location.pathname.includes(id)) {
       router.push("/dashboard");
     }
@@ -91,30 +89,32 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Background Overlay for mobile */}
       {isMobileNavOpen && (
         <div
-          className="fixed inset-0 bg-black/20 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 md:hidden"
           onClick={closeMobileNav}
         />
       )}
 
       <div
         className={cn(
-          "fixed md:inset-y-0 top-14 bottom-0 left-0 z-50 w-72 bg-gray-50/80 backdrop-blur-xl border-r border-gray-200/50 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-0 flex flex-col",
+          "fixed md:inset-y-0 top-14 bottom-0 left-0 z-50 w-72 bg-gray-900 border-r border-gray-700 transform transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:top-0 flex flex-col",
           isMobileNavOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
-        <div className="p-4 border-b border-gray-200/50">
+        <div className="p-4 border-b border-gray-700">
           <Button
             onClick={handleNewChat}
-            className="w-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-200/50 shadow-sm hover:shadow transition-all duration-200"
+            className="w-full bg-gray-700 hover:bg-gray-600 text-gray-200 border border-gray-600 shadow-sm hover:shadow transition-all duration-200"
           >
             <PlusIcon className="mr-2 h-4 w-4" /> New Chat
           </Button>
         </div>
 
-        
+        <div className="flex-1 overflow-y-auto space-y-2.5 p-4 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+          {chats?.map((chat) => (
+            <ChatRow key={chat._id} chat={chat} onDelete={handleDeleteChat} />
+          ))}
         </div>
       </div>
     </>

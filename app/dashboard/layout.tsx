@@ -12,7 +12,7 @@ export default function DashboardLayout({
 }) {
   return (
     <NavigationProvider>
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-screen ">
         {/* Header at the top */}
         <Header />
 
@@ -23,7 +23,7 @@ export default function DashboardLayout({
           </Authenticated>
 
           {/* Main content */}
-          <main className="flex-1 overflow-y-auto">{children}</main>
+          <main className="flex-1 overflow-y-auto ring-gray-700" >{children}</main>
         </div>
       </div>
     </NavigationProvider>
