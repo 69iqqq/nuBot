@@ -37,6 +37,7 @@ export function Cloud({ content, isUser }: CloudProps) {
                     language={match[1]}
                     PreTag="div"
                     className="rounded-lg overflow-hidden p-3"
+                    wrapLongLines={true}
                   >
                     {String(children).replace(/\n$/, "")}
                   </SyntaxHighlighter>
