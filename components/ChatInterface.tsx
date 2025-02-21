@@ -140,6 +140,12 @@ export default function ChatInterface({
 
           {messages?.map((message: Doc<"messages">) => (
             <div key={message._id} className="relative group">
+              {message.role === "user" && (
+                <span className="text-xs text-gray-400 block  mt-5">
+                  {new Date(message.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                </span>
+              )}
+
               <Cloud content={message.content} isUser={message.role === "user"} />
 
               {message.role === "assistant" && (
