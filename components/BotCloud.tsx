@@ -42,7 +42,7 @@ export function Cloud({ content, isUser }: CloudProps) {
                   </SyntaxHighlighter>
                 ) : (
                   <code
-                    className="bg-gray-700 text-white px-1 py-0.5  rounded"
+                    className="bg-gray-700 text-white px-1 max-w-[85%] md:max-w-[75%] py-0.5  rounded"
                     {...props}
                   >
                     {children}
