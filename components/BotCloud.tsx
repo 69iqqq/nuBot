@@ -19,7 +19,7 @@ export function Cloud({ content, isUser }: CloudProps) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} px-4 py-3`}>
       <div
-        className={`relative rounded-3xl px-6 py-4 max-w-[90%] md:max-w-[75%] lg:max-w-[65%] xl:max-w-[55%] shadow-md ${isUser
+        className={`relative rounded-3xl px-6 py-4 max-w-[90%] md:max-w-[75%] lg:max-w-[65%] xl:max-w-[55%]  ${isUser
           ? "bg-blue-600 text-white rounded-br-none ring-blue-700"
           : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
           }`}
@@ -31,7 +31,7 @@ export function Cloud({ content, isUser }: CloudProps) {
               code({ inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || "");
                 return !inline && match ? (
-                  <div className="w-[80vw] md:w-[70vw] lg:w-[65vw] xl:w-[55vw] overflow-auto mx-auto">
+                  <div className="w-[75vw] md:w-[65vw] lg:w-[65vw] xl:w-[55vw] overflow-auto mx-auto">
                     <SyntaxHighlighter
                       style={oneDark}
                       language={match[1]}
