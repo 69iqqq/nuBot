@@ -17,9 +17,9 @@ export function Cloud({ content, isUser }: CloudProps) {
   const { user } = useUser();
 
   return (
-    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+    <div className={`flex flex-wrap ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`rounded-2xl px-4 py-2.5 max-w-[85%] md:max-w-[75%] shadow-sm ring-1 ring-inset relative ${isUser
+        className={`rounded-2xl px-4 py-2.5 max-w-full sm:max-w-[90%] md:max-w-[75%] shadow-sm ring-1 ring-inset relative ${isUser
           ? "bg-gray-900 text-white rounded-br-none ring-transparent"
           : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
           }`}
@@ -42,7 +42,7 @@ export function Cloud({ content, isUser }: CloudProps) {
                   </SyntaxHighlighter>
                 ) : (
                   <code
-                    className="bg-gray-700 text-white px-1 py-0.5  rounded"
+                    className="bg-gray-700 text-white px-1 py-0.5 rounded"
                     {...props}
                   >
                     {children}
