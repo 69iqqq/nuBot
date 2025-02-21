@@ -36,13 +36,13 @@ export function Cloud({ content, isUser }: CloudProps) {
                     style={oneDark}
                     language={match[1]}
                     PreTag="div"
-                    className="rounded-lg overflow-hidden p-3 w-full"
+                    className="rounded-lg overflow-hidden p-3"
                   >
                     {String(children).replace(/\n$/, "")}
                   </SyntaxHighlighter>
                 ) : (
                   <code
-                    className="bg-gray-700 text-white px-1 py-0.5 w-full rounded"
+                    className="bg-gray-700 text-white px-1 py-0.5  rounded"
                     {...props}
                   >
                     {children}
