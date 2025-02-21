@@ -2,11 +2,12 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
-import { BotIcon } from "lucide-react";
+import { BotIcon, Copy } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm"; // Supports tables, strikethrough, etc.
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useState } from "react";
 
 interface CloudProps {
   content: string;
@@ -15,6 +16,14 @@ interface CloudProps {
 
 export function Cloud({ content, isUser }: CloudProps) {
   const { user } = useUser();
+  const [showLineNumbers, setShowLineNumbers] = useState(true);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} px-4 py-3`}>
@@ -30,13 +39,26 @@ export function Cloud({ content, isUser }: CloudProps) {
             components={{
               code({ inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || "");
+                const language = match ? match[1] : "";
                 return !inline && match ? (
-                  <div className="w-[75vw] md:w-[65vw] lg:w-[65vw] xl:w-[55vw] overflow-auto mx-auto">
+                  <div className="relative w-[75vw] md:w-[65vw] lg:w-[65vw] xl:w-[55vw] overflow-auto mx-auto">
+                    <div className="flex justify-between items-center bg-gray-900 text-gray-200 px-4 py-2 rounded-t-lg">
+                      <span className="text-sm font-medium">{language}</span>
+                      <div className="flex gap-2">
+                        <button onClick={() => setShowLineNumbers(!showLineNumbers)} className="text-sm hover:text-white">
+                          {showLineNumbers ? "Hide Line Numbers" : "Show Line Numbers"}
+                        </button>
+                        <button onClick={() => handleCopy(String(children))} className="flex items-center gap-1 text-sm hover:text-white">
+                          <Copy className="h-4 w-4" /> {copied ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                    </div>
                     <SyntaxHighlighter
                       style={oneDark}
-                      language={match[1]}
+                      language={language}
                       PreTag="div"
-                      className="rounded-lg overflow-hidden p-4"
+                      showLineNumbers={showLineNumbers}
+                      className="rounded-b-lg overflow-hidden p-4"
                     >
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>
