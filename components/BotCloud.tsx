@@ -24,7 +24,7 @@ export function Cloud({ content, isUser }: CloudProps) {
           : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
           }`}
       >
-        <div className="whitespace-pre-wrap text-[15px] leading-relaxed">
+        <div className="whitespace-pre-wrap text-[15px] max-w-[85%] md:max-w-[75%]  leading-relaxed">
           {/* Render Markdown content with syntax highlighting for code */}
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
