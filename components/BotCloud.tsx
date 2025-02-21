@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
 import { BotIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import remarkGfm from "remark-gfm"; // Supports tables, strikethrough, etc.
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
@@ -32,16 +32,12 @@ export function Cloud({ content, isUser }: CloudProps) {
               code({ inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || "");
                 return !inline && match ? (
-                  <div className="overflow-hidden rounded-lg">
+                  <div className="mx-2 md:mx-0">
                     <SyntaxHighlighter
                       style={oneDark}
                       language={match[1]}
                       PreTag="div"
-                      className={`p-3 sm:px-4 rounded-lg ${{
-                        isUser
-                          ? "bg-blue-700 text-white"
-                          : "bg-gray-900 text-gray-200"
-                      }}`}
+                      className="rounded-lg overflow-hidden p-3"
                     >
                       {String(children).replace(/\n$/, "")}
                     </SyntaxHighlighter>
