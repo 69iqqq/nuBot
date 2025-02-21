@@ -19,10 +19,11 @@ export function Cloud({ content, isUser }: CloudProps) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`rounded-2xl px-4 py-2.5 max-w-[85%] md:max-w-[75%] shadow-sm ring-1 ring-inset relative ${isUser
-          ? "bg-blue-600 text-white rounded-br-none ring-blue-700"
-          : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
-          }`}
+        className={`rounded-2xl px-4 py-2.5 max-w-[85%] md:max-w-[75%] shadow-sm ring-1 ring-inset relative ${
+          isUser
+            ? "bg-blue-600 text-white rounded-br-none ring-blue-700"
+            : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
+        }`}
       >
         <div className="whitespace-pre-wrap text-[15px] leading-relaxed">
           {/* Render Markdown content with syntax highlighting for code */}
@@ -32,14 +33,16 @@ export function Cloud({ content, isUser }: CloudProps) {
               code({ inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || "");
                 return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={oneDark}
-                    language={match[1]}
-                    PreTag="div"
-                    className="rounded-lg overflow-hidden p-3"
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
+                  <div className="overflow-auto rounded-lg">
+                    <SyntaxHighlighter
+                      style={oneDark}
+                      language={match[1]}
+                      PreTag="div"
+                      className="p-3 min-w-full"
+                    >
+                      {String(children).replace(/\n$/, "")}
+                    </SyntaxHighlighter>
+                  </div>
                 ) : (
                   <code
                     className="bg-gray-700 text-white px-1 py-0.5 rounded"
@@ -55,14 +58,18 @@ export function Cloud({ content, isUser }: CloudProps) {
           </ReactMarkdown>
         </div>
         <div
-          className={`absolute bottom-0 ${isUser
-            ? "right-0 translate-x-1/2 translate-y-1/2"
-            : "left-0 -translate-x-1/2 translate-y-1/2"
-            }`}
+          className={`absolute bottom-0 ${
+            isUser
+              ? "right-0 translate-x-1/2 translate-y-1/2"
+              : "left-0 -translate-x-1/2 translate-y-1/2"
+          }`}
         >
           <div
-            className={`w-8 h-8 rounded-full border-2 ${isUser ? "bg-gray-900 border-gray-600" : "bg-blue-600 border-gray-900"
-              } flex items-center justify-center shadow-sm`}
+            className={`w-8 h-8 rounded-full border-2 ${
+              isUser
+                ? "bg-gray-900 border-gray-600"
+                : "bg-blue-600 border-gray-900"
+            } flex items-center justify-center shadow-sm`}
           >
             {isUser ? (
               <Avatar className="h-7 w-7">
