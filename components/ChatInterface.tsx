@@ -140,8 +140,9 @@ export default function ChatInterface({
 
           {messages?.map((message: Doc<"messages">) => (
             <div key={message._id} className="relative group">
+              {/* Show timestamp only for user messages, aligned to the left */}
               {message.role === "user" && (
-                <span className="text-xs text-gray-400 block  mt-5">
+                <span className="text-xs text-gray-400 block mb-3 mt-5">
                   {new Date(message.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </span>
               )}

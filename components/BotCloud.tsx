@@ -19,11 +19,10 @@ export function Cloud({ content, isUser }: CloudProps) {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`relative rounded-2xl px-4 py-2.5 max-w-[85%] md:max-w-[75%] shadow-sm ring-1 ring-inset ${
-          isUser
-            ? "bg-blue-600 text-white rounded-br-none ring-blue-700"
-            : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
-        }`}
+        className={`relative rounded-2xl px-4 py-2.5 max-w-[85%] md:max-w-[70%] lg:max-w-[60%] shadow-sm  ${isUser
+          ? "bg-blue-600 text-white rounded-br-none ring-blue-700"
+          : "bg-gray-800 text-gray-200 rounded-bl-none ring-gray-700"
+          }`}
       >
         <div className="whitespace-pre-wrap text-[15px] leading-relaxed">
           <ReactMarkdown
@@ -32,7 +31,7 @@ export function Cloud({ content, isUser }: CloudProps) {
               code({ inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || "");
                 return !inline && match ? (
-                  <div className="mx-2 md:mx-0">
+                  <div className="w-[85vw] md:w-[75vw] lg:w-[60vw] overflow-auto mx-auto">
                     <SyntaxHighlighter
                       style={oneDark}
                       language={match[1]}
@@ -62,9 +61,8 @@ export function Cloud({ content, isUser }: CloudProps) {
           className={`absolute -bottom-3 ${isUser ? "-right-3" : "-left-3"}`}
         >
           <div
-            className={`w-8 h-8 rounded-full border-2 ${
-              isUser ? "bg-gray-900 border-gray-600" : "bg-blue-600 border-gray-900"
-            } flex items-center justify-center shadow-sm`}
+            className={`w-8 h-8 rounded-full border-2 ${isUser ? "bg-gray-900 border-gray-600" : "bg-blue-600 border-gray-900"
+              } flex items-center justify-center shadow-sm`}
           >
             {isUser ? (
               <Avatar className="h-7 w-7">
