@@ -133,22 +133,22 @@ export default function ChatInterface({
   };
 
   return (
-    <main className="flex flex-col h-[calc(100vh-theme(spacing.14))] bg-gray-900 text-white">
+    <main className="flex flex-col h-screen bg-gray-900 text-white">
+      {/* Chat messages container */}
       <section className="flex-1 overflow-y-auto bg-gray-800 p-2 md:p-0">
         <div className="max-w-4xl mx-auto p-4 space-y-3">
           {messages?.length === 0 && <Greeting />}
-
           {messages?.map((message: Doc<"messages">) => (
             <div key={message._id} className="relative group">
-              {/* Show timestamp only for user messages, aligned to the left */}
               {message.role === "user" && (
                 <span className="text-xs text-gray-400 block mb-3 mt-5">
-                  {new Date(message.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  {new Date(message.createdAt).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </span>
               )}
-
               <Cloud content={message.content} isUser={message.role === "user"} />
-
               {message.role === "assistant" && (
                 <button
                   onClick={() => copyToClipboard(message._id, message.content)}
@@ -163,7 +163,6 @@ export default function ChatInterface({
               )}
             </div>
           ))}
-
           {isLoading && (
             <div className="flex justify-start animate-in fade-in-0">
               <div className="rounded-2xl px-4 py-3 bg-gray-700 text-gray-300 rounded-bl-none shadow-sm">
@@ -183,7 +182,8 @@ export default function ChatInterface({
         </div>
       </section>
 
-      <footer className="border-gray-700 bg-gray-800 p-4 sticky bottom-0">
+      {/* Input field container (always fixed at the bottom) */}
+      <footer className="sticky bottom-0 bg-gray-800 p-4 border-t border-gray-700">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto relative">
           <div className="relative flex items-center">
             <input
