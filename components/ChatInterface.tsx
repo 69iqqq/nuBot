@@ -8,7 +8,6 @@ import { Cloud } from "@/components/BotCloud";
 import { ArrowUpFromDot, Copy } from "lucide-react";
 import { getConvexClient } from "@/lib/convex";
 import { api } from "@/convex/_generated/api";
-import Header from "./Header";
 
 interface ChatInterfaceProps {
   chatId: Id<"chats">;
@@ -135,8 +134,6 @@ export default function ChatInterface({
 
   return (
     <main className="flex flex-col h-screen bg-gray-900 text-white">
-      {/* Header (Fixed) */}
-      <Header />
 
       {/* Chat messages (Scrollable) */}
       <section className="flex-1 overflow-y-auto bg-gray-800 p-2 md:p-0">
