@@ -4,7 +4,6 @@ import { api } from "@/convex/_generated/api";
 import { getConvexClient } from "@/lib/convex";
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
-import Header from "@/components/Header";
 
 interface ChatPageProps {
   params: {
@@ -42,7 +41,6 @@ export default async function ChatPage({ params }: ChatPageProps) {
 
     return (
       <>
-        {/* <Header /> */}
         <div className="flex-1 overflow-hidden">
           <ChatInterface chatId={chatId} initialMessages={initialMessages} />
         </div>

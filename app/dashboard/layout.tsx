@@ -21,7 +21,7 @@ export default function DashboardLayout({
         {/* Main content section */}
         <div className="flex flex-col flex-1">
           {/* Header inside main content (not above sidebar) */}
-          {/* <Header /> */}
+          <Header />
 
           {/* Content area */}
           <main className="flex-1 overflow-y-auto ring-gray-700">{children}</main>
