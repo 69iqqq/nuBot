@@ -7,7 +7,7 @@ export default function Greeting() {
   return (
     <div className="flex flex-col items-center justify-center h-full mt-3 px-2 text-gray-300 text-center ">
       <h2 className="text-lg font-bold bg-gradient-to-r from-gray-400 to-gray-600 bg-clip-text text-transparent mb-2">
-        Starting of Legendary conversation with nuBot 🚀
+        Chat with nuBot 🚀
       </h2>
       <div className="bg-gray-800 rounded-md shadow-sm ring-1 ring-gray-700 px-2 py-3 max-w-[220px] w-full">
         <h2 className="text-sm font-semibold text-gray-100 mb-1">Welcome to nuBot! 🤖</h2>
